@@ -1,25 +1,25 @@
 import numpy as np
-import math as m
+import math
 import matplotlib.pyplot as plt
 
 theta = 1
-n = 100
+sampleSize = 100
 max_k = 50
-series = 50
+seriesNumber = 50
 
-def getEstimateUniform(k):
+def getEstimatedUniform(k):
     m_k = 0
-    for x in np.random.uniform(0, theta, n) :
+    for x in np.random.uniform(0, theta, sampleSize) :
         m_k = m_k + x ** k
-    m_k = m_k / n
+    m_k = m_k / sampleSize
     return ((k + 1) * m_k) ** (1.0 / k) 
 
-def getEstimateExponential(k):
+def getEstimatedExponential(k):
     m_k = 0
-    for x in np.random.exponential(theta, n) :
+    for x in np.random.exponential(theta, sampleSize) :
         m_k = m_k + x ** k
-    m_k = m_k / n
-    return (m_k / m.factorial(k)) ** (1.0 / k) 
+    m_k = m_k / sampleSize
+    return (m_k / math.factorial(k)) ** (1.0 / k) 
 
 def generate():
     resultsExponential = []
@@ -27,11 +27,11 @@ def generate():
     for k in range(1, max_k) :
         deviationExponential = 0
         deviationUniform = 0
-        for s in range(series) :
-            deviationExponential += (theta - getEstimateExponential(k)) ** 2
-            deviationUniform += (theta - getEstimateUniform(k)) ** 2
-        resultsExponential.append((deviationExponential / series) ** (0.5))
-        resultsUniform.append((deviationUniform / series) ** 0.5)
+        for _ in range(seriesNumber) :
+            deviationExponential += (theta - getEstimatedExponential(k)) ** 2
+            deviationUniform += (theta - getEstimatedUniform(k)) ** 2
+        resultsExponential.append((deviationExponential / seriesNumber) ** (0.5))
+        resultsUniform.append((deviationUniform / seriesNumber) ** 0.5)
     plt.plot(range(1, max_k), resultsUniform)
     plt.savefig("uniform.png")
     plt.clf()
