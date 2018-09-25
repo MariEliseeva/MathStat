@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 theta = 1
 sampleSize = 100
-max_k = 50
-seriesNumber = 50
+max_k = 100
+seriesNumber = 100
 
 def getEstimatedUniform(k):
     m_k = 0
@@ -19,9 +19,9 @@ def getEstimatedExponential(k):
     for x in np.random.exponential(theta, sampleSize) :
         m_k = m_k + x ** k
     m_k = m_k / sampleSize
-    return (m_k / math.factorial(k)) ** (1.0 / k) 
-
-def generate():
+    return (m_k / math.factorial(k)) ** (1.0 / k)
+    
+if __name__ == '__main__':
     resultsExponential = []
     resultsUniform = []
     for k in range(1, max_k) :
@@ -37,6 +37,3 @@ def generate():
     plt.clf()
     plt.plot(range(1, max_k), resultsExponential)
     plt.savefig("exponential.png")
-    
-if __name__ == '__main__':
-    generate()
